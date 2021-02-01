@@ -16,39 +16,40 @@ import (
 func main() {
 	usage := `欢迎使用时源科技文件夹重命名工具！
 
-	本程序可将输入的项目目录根据 档案号+姓名 在 总表.xlsx 的第一个Sheet中匹配数据并批量将文件夹重命名为对应身份证号。
+    本程序可将输入的项目目录根据 档案号+姓名 在 总表.xlsx 的第一个Sheet中匹配数据并批量将文件夹重命名为对应身份证号。
 
-	*注意！
-	1. 总表.xlsx 的第一个Sheet中应有两行标题
-	2. 工号/档案号 应在第三列
-	3. 姓名 应在第四列
-	4. 身份证号 应在第七列
-	5. *该程序会原地操作文件，故运行后将不可逆！请提前进行文件备份！*
+    *注意！
+    1. 总表.xlsx 的第一个Sheet中应有两行标题
+    2. 工号/档案号 应在第三列
+    3. 姓名 应在第四列
+    4. 身份证号 应在第七列
+    5. *该程序会原地操作文件，故运行后将不可逆！请提前进行文件备份！*
 
-	Usage:  将 总表.xlsx 放入程序所在文件夹，并根据提示输入项目文件夹路径即可开始。
+    Usage:  将 总表.xlsx 放入程序所在文件夹，并根据提示输入项目文件夹路径即可开始。
 
-			如：
-			    输入项目文件夹的绝对路径或其与程序所在文件夹的相对路径并按回车：D:\project\中国银行
-
-
-	Arthur: 3RM1N3@时源科技
-
-	E-mail: wangyu7439@hotmail.com
+        如：
+            输入项目文件夹的绝对路径或其与程序所在文件夹的相对路径并按回车：D:\project\中国银行
 
 
-	按回车键继续...`
+    Author: 3RM1N3@时源科技
+
+    E-mail: wangyu7439@hotmail.com
+
+
+    按回车键继续...`
 	fmt.Print(usage)
 	fmt.Scanln()
 	fmt.Println("*请再次确认！此操作运行后将不可逆！请提前进行文件备份！确定仍要继续吗？")
 	fmt.Println()
 	for i := 5; i > 0; i-- {
-		fmt.Printf("\033[30A%d 秒后按回车键继续...", i)
+		fmt.Printf("\033[30D%d 秒后按回车键继续...", i)
 		time.Sleep(1 * time.Second)
 	}
-	fmt.Println("\n按回车键继续...")
+	fmt.Println("\033[30D\033[K按回车键继续...")
+	fmt.Scanln()
 
 	defer func() {
-		fmt.Printf("按回车键退出...")
+		fmt.Printf("\n操作完成，按回车键退出...")
 		fmt.Scanln()
 	}()
 
@@ -62,7 +63,11 @@ func main() {
 	projectPath := ""
 	fmt.Print("输入项目文件夹的绝对路径或其与程序所在文件夹的相对路径并按回车：")
 	fmt.Scanln(&projectPath)
-	dirArr := readDirs(projectPath) // 读取目录
+	dirArr, err := readDirs(projectPath) // 读取目录
+	if err != nil {
+		log.Println("读取项目文件夹失败：", err)
+		return
+	}
 	for _, a := range dirArr {
 		dirName := path.Base(a)
 		dirNameClean := strings.TrimSpace(dirName)
@@ -82,8 +87,11 @@ func main() {
 }
 
 //  readDirs 能够获取当前目录及子目录下全部的文件夹名
-func readDirs(path string) []string {
-	dirs, _ := ioutil.ReadDir(path)
+func readDirs(path string) ([]string, error) {
+	dirs, err := ioutil.ReadDir(path)
+	if err != nil {
+		return nil, err
+	}
 	returnedArr := []string{}
 	for _, dir := range dirs {
 		if dir.IsDir() {
@@ -92,7 +100,7 @@ func readDirs(path string) []string {
 			returnedArr = append(returnedArr, fullPath)
 		}
 	}
-	return returnedArr
+	return returnedArr, err
 }
 
 // getMap 能够读取总表中的工号、姓名和身份证号并制作成映射表
