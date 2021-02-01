@@ -20,8 +20,8 @@ func main() {
     *注意！
     1. 案卷目录.xlsx 的第一个Sheet中应有两行标题
     2. 程序仅查找输入的文件夹，不会递归查找子文件夹
-	3. 身份证号 应在第三列
-	4. 应保证身份证号列的身份证号数量与读取到的jpg文件数量完全一致
+    3. 身份证号 应在第三列
+    4. 应保证身份证号列的身份证号数量与读取到的jpg文件数量完全一致
     5. *该程序会原地操作文件，故运行后将不可逆！请提前进行文件备份！*
 
     Usage:  将 案卷目录.xlsx 与程序放入同一目录下，并根据提示输入装有 imageXXXX.jpg文件 的文件夹路径即可开始。
@@ -65,10 +65,9 @@ func main() {
 		log.Println("打开“案卷目录.xlsx”失败！", err)
 		return
 	}
-	fmt.Println(fileNum, idList)
 
 	if len(idList) != fileNum {
-		log.Println("文件数目与身份证数量不等！")
+		log.Printf("文件数目与身份证数量不等！文件数目：%d，身份证数量：%d", fileNum, len(idList))
 		return
 	}
 
