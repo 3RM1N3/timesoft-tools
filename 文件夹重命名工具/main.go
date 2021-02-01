@@ -96,7 +96,11 @@ func readDirs(path string) ([]string, error) {
 	for _, dir := range dirs {
 		if dir.IsDir() {
 			fullPath := path + "/" + dir.Name()
-			returnedArr = append(returnedArr, readDirs(fullPath)...)
+			sonDir, err := readDirs(fullPath)
+			if err != nil {
+				return nil, err
+			}
+			returnedArr = append(returnedArr, sonDir...)
 			returnedArr = append(returnedArr, fullPath)
 		}
 	}
