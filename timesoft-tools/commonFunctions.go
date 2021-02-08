@@ -327,7 +327,23 @@ func moveImage(imgDir, projectDir, typeOfFile string) {
 			logChan <- fmt.Sprint(aimDir, " 不存在！取消移动文件", jpg)
 			continue
 		}
-		newPath := path.Join(aimDir, jpgName+"-0("+typeOfFile+ext)
+		newPath := ""
+		if typeOfFile == "x" {
+			previousImgNum := 0
+			previousImgs, err := ioutil.ReadDir(aimDir)
+			if err != nil {
+				logChan <- fmt.Sprint("读取目标文件夹内文件数量失败", aimDir)
+				return
+			}
+			for _, previousImg := range previousImgs {
+				if !previousImg.IsDir() && strings.HasSuffix(previousImg.Name(), ".jpg") {
+					previousImgNum++
+				}
+			}
+			newPath = path.Join(aimDir, fmt.Sprintf("%s-0(%d%s", jpgName, previousImgNum+1, ext))
+		} else {
+			newPath = path.Join(aimDir, jpgName+"-0("+typeOfFile+ext)
+		}
 		if _, err := os.Stat(newPath); !os.IsNotExist(err) {
 			logChan <- fmt.Sprint(newPath, " 已存在！取消移动文件")
 			continue

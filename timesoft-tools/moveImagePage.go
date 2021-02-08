@@ -50,6 +50,7 @@ func moveImagePage(win fyne.Window, logText *fyne.Container) fyne.CanvasObject {
 		"档案袋":  "1",
 		"封皮":   "2",
 		"简易目录": "3",
+		"封底":   "x",
 	}
 	typeList := []string{}
 	for k := range typeMap {
