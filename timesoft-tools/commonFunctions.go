@@ -226,7 +226,7 @@ func fileRename(projectPath string) {
 
 	// 单独处理目录内文件
 	for _, menuPath := range *menu {
-		menuCounter := 2
+		menuCounter := 3
 		files, err := ioutil.ReadDir(menuPath)
 		if err != nil {
 			logChan <- fmt.Sprint("目录读取失败：", menuPath)
