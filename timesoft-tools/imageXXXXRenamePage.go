@@ -11,20 +11,6 @@ import (
 )
 
 func imageXXXXRenamePage(win fyne.Window, logText *fyne.Container) fyne.CanvasObject {
-	/*usage := `欢迎使用时源科技封皮&档案袋重命名工具
-
-	  本软件可将 输入的装有 imageXXXX.jpg 的文件夹 下全部 imageXXXX.jpg 文件按顺序依次重命名为所选xlsx文档第一个Sheet中的第三列（身份证号）。
-
-	  *注意！
-	  1. 案卷目录.xlsx 的第一个Sheet中应有两行标题
-	  2. 程序仅查找输入的文件夹，不会递归查找子文件夹
-	  3. 身份证号 应在第三列
-	  4. 应保证身份证号列的身份证号数量与读取到的jpg文件数量完全一致
-	  5. *该程序会原地操作文件，故运行后将不可逆！请提前进行文件备份！*
-
-
-	  Author: 3RM1N3@时源科技
-	  E-mail: wangyu7439@hotmail.com`*/
 
 	statusBar := widget.NewLabel("依次选择表格文件、包含需重命名图片的文件夹后点击运行以开始")
 
