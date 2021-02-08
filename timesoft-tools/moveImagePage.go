@@ -10,18 +10,6 @@ import (
 )
 
 func moveImagePage(win fyne.Window, logText *fyne.Container) fyne.CanvasObject {
-	/*usage := `欢迎使用时源科技封皮&档案袋归位工具
-
-	  本程序可将输入的装有 身份证号.jpg 的文件夹下全部 身份证号.jpg 文件移动到输入的项目文件夹中对应的身份证号文件夹的“目录”内。
-
-	  *注意！
-	  1. 对于包含jpg文件的文件夹，程序不会递归查找子文件夹
-	  2. 对于项目文件夹，程序将递归查找子文件夹
-	  3. *该程序会原地操作文件，故运行后将不可逆！请提前进行文件备份！*
-
-
-	  Author: 3RM1N3@时源科技
-	  E-mail: wangyu7439@hotmail.com`*/
 
 	statusBar := widget.NewLabel("依次选择图片文件夹、项目文件夹和档案类型后点击运行以开始")
 
@@ -58,12 +46,17 @@ func moveImagePage(win fyne.Window, logText *fyne.Container) fyne.CanvasObject {
 	})
 
 	typeOfFile := ""
-	selecter := widget.NewSelect([]string{"封皮", "档案袋"}, func(s string) {
-		if s == "封皮" {
-			typeOfFile = "2"
-			return
-		}
-		typeOfFile = "1"
+	typeMap := map[string]string{
+		"档案袋":  "1",
+		"封皮":   "2",
+		"简易目录": "3",
+	}
+	typeList := []string{}
+	for k := range typeMap {
+		typeList = append(typeList, k)
+	}
+	selecter := widget.NewSelect(typeList, func(s string) {
+		typeOfFile = typeMap[s]
 	})
 
 	outputButton := widget.NewButton("导出日志", func() {
