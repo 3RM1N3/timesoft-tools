@@ -103,18 +103,3 @@ func aboutExcelPage(win fyne.Window, logVbox *fyne.Container) fyne.CanvasObject 
 		logVbox,
 	)
 }
-
-/*container.NewCenter(widget.NewLabel(`欢迎使用时源科技 Excel 相关工具
-
-
-Trim Space工具：可以将输入文件内所有表格的所有单元格前后的空白去除
-
-身份证号码扩展：可以将输入文件内所有的15位数字扩展为18位身份证号
-
-案卷目录格式检测：可以检查输入文件文件是否符合案卷目录规范
-
-
-Usage:  选择需要处理的表格文件和操作类型后点击运行即可开始。`)),
-	)
-}
-*/

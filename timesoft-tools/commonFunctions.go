@@ -498,6 +498,10 @@ func excelIDExtand(fileName string) {
 			}
 		}
 	}
+	err = f.Save()
+	if err != nil {
+		logChan <- fmt.Sprint("文件保存失败！", fileName)
+	}
 }
 
 // xlsxCheck 能够检测案卷目录是否符合标准
