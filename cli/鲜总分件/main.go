@@ -149,6 +149,10 @@ Author: 3RM1N3@时源科技
 			folderEntry,
 		),
 		widget.NewSeparator(),
+		widget.NewLabel("可选项："),
+		container.NewHBox(),
+		widget.NewLabel("使用字符x将子文件夹名补充至x位"),
+		widget.NewSeparator(),
 		runButton,
 		usageLabel,
 	)
