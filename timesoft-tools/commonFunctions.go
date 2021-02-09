@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"strconv"
@@ -693,4 +694,44 @@ func logOutput(parent fyne.Window) {
 	}
 	dialog.ShowInformation("提示", "导出成功！", parent)
 	logTxt = ""
+}
+
+// simpleCatalogsHoming 能够处理多文件的简易目录归位
+func simpleCatalogsHoming(simpleCatalogsDir, projectDir string) {
+	projectDirMap, err := getDirMap(projectDir) // 读取项目文件夹
+	if err != nil {
+		logChan <- fmt.Sprint("读取项目文件夹失败：", err)
+		return
+	}
+	catalogsDirMap, err := getDirMap(simpleCatalogsDir) // 读取目标文件夹
+	if err != nil {
+		logChan <- fmt.Sprint("读取简易目录文件夹失败：", err)
+		return
+	}
+
+	for k, v := range catalogsDirMap {
+		targetProjectDir, ok := projectDirMap[k]
+		if !ok {
+			logChan <- fmt.Sprintf("%s在项目文件夹中不存在！", k)
+			continue
+		}
+		simpleCatalogs, err := ioutil.ReadDir(v)
+		if err != nil {
+			logChan <- fmt.Sprint("读取简易目录文件夹失败：", v)
+			continue
+		}
+		for _, simpleCatalog := range simpleCatalogs {
+			fileName := simpleCatalog.Name()
+			if simpleCatalog.IsDir() || !strings.HasSuffix(fileName, ".jpg") {
+				continue
+			}
+			oldPath := path.Join(v, fileName)
+			newPath := path.Join(targetProjectDir, "目录", "00000"+fileName)
+			log.Printf("从%s\n移动到\n%s\n\n", oldPath, newPath)
+			// err = os.Rename(oldPath, newPath)
+			if err != nil {
+				logChan <- fmt.Sprint("移动失败：", err)
+			}
+		}
+	}
 }

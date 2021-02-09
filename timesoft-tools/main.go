@@ -29,14 +29,15 @@ var busy = false
 
 func main() {
 	a := app.New()
-	w := a.NewWindow("Timesoft Tools v0.4.1")
+	w := a.NewWindow("Timesoft Tools v0.4.2")
 	var logVbox = *container.NewVBox()
 
 	w.SetContent(container.NewAppTabs(
-		container.NewTabItem("Excel相关操作", aboutExcelPage(w, &logVbox)),
+		container.NewTabItem("Excel操作", aboutExcelPage(w, &logVbox)),
 		container.NewTabItem("文件夹重命名", folderRenamePage(w, &logVbox)),
 		container.NewTabItem("文件重命名", fileRenamePage(w, &logVbox)),
 		container.NewTabItem("图片重命名", imageXXXXRenamePage(w, &logVbox)),
+		container.NewTabItem("多文件简易目录归位", simpleCatalogsHomingPage(w, &logVbox)),
 		container.NewTabItem("图片归位", moveImagePage(w, &logVbox)),
 		container.NewTabItem("移动目录", moveFilesInCatalogsPage(w, &logVbox)),
 		container.NewTabItem("使用帮助&关于", showHelpPage()),
