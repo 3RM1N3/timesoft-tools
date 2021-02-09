@@ -9,6 +9,8 @@ import (
 
 func showHelpPage() fyne.CanvasObject {
 	usage := `
+v0.4.1 版本更新日志：修复了身份证号扩展无法保存的问题
+
 使用帮助：
 
 Excel相关操作：
