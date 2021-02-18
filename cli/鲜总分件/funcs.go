@@ -52,7 +52,7 @@ func readSourcesExcel(filePath, sheetName string) (map[string][]int, error) {
 	return sourceMap, nil
 }
 
-func do(excelPath, sheetName, folderPath string) {
+func do(excelPath, sheetName, folderPath, numOfBit string) {
 	dataMap, err := readSourcesExcel(excelPath, sheetName) // 读取excel文件
 	if err != nil {
 		log.Println("表格文件打开失败：", err)
@@ -63,6 +63,7 @@ func do(excelPath, sheetName, folderPath string) {
 		log.Println("文件夹读取失败：", folderPath)
 		return
 	}
+	fillZero := fmt.Sprintf("%%s-%%0%sd", numOfBit)
 	for folderName, maxFileNum := range fileMap {
 		currentDir := path.Join(folderPath, folderName)
 		neededList, ok := dataMap[folderName]
@@ -71,7 +72,7 @@ func do(excelPath, sheetName, folderPath string) {
 		}
 		neededList = append(neededList, maxFileNum+1)
 		for i := 0; i < len(neededList)-1; i++ {
-			subFolder := fmt.Sprintf("%s-%04d", folderName, i+1)
+			subFolder := fmt.Sprintf(fillZero, folderName, i+1)
 			moveToDir := path.Join(currentDir, subFolder)
 			os.MkdirAll(moveToDir, 0755)
 			for j := neededList[i]; j < neededList[i+1]; j++ {

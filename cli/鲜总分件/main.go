@@ -44,7 +44,7 @@ Author: 3RM1N3@时源科技
 	sheetList := []string{} // sheet列表
 	selectedSheet := ""     // 选定的sheet页
 	myApp := app.New()
-	window := myApp.NewWindow("分件") // 新建窗口
+	window := myApp.NewWindow("分件-v0.3") // 新建窗口
 
 	statusBar := widget.NewLabel("选择表格文件、数据所在Sheet与项目文件夹后点击运行开始")
 
@@ -98,6 +98,21 @@ Author: 3RM1N3@时源科技
 		}, window)
 	})
 
+	numOfBit := ""
+	numOfBitSelect := widget.NewSelect([]string{"2", "3", "4", "5", "6", "7", "8"}, func(s string) {
+		numOfBit = s
+	})
+	numOfBitSelect.Disable()
+
+	fillZeroCheck := widget.NewCheck("", func(b bool) {
+		if b {
+			numOfBitSelect.Enable()
+			return
+		}
+		numOfBitSelect.Disable()
+		numOfBit = ""
+	})
+
 	runButton := widget.NewButton("运行", func() { // 运行按钮
 		if tablePathEntry.Text == "" || folderEntry.Text == "" || selectedSheet == "" {
 			dialog.ShowInformation("错误", "尚有字段为空！", window)
@@ -109,7 +124,7 @@ Author: 3RM1N3@时源科技
 			}
 			runable = false
 			statusBar.SetText("处理中...请勿进行其他操作")
-			do(tablePathEntry.Text, selectedSheet, folderEntry.Text) // 开始处理
+			do(tablePathEntry.Text, selectedSheet, folderEntry.Text, numOfBit) // 开始处理
 			tablePathEntry.SetText("")
 			folderEntry.SetText("")
 			selectedSheet = ""
@@ -150,8 +165,12 @@ Author: 3RM1N3@时源科技
 		),
 		widget.NewSeparator(),
 		widget.NewLabel("可选项："),
-		container.NewHBox(),
-		widget.NewLabel("使用字符x将子文件夹名补充至x位"),
+		container.NewHBox(
+			fillZeroCheck,
+			widget.NewLabel("将子文件夹名用“0”补充至"),
+			numOfBitSelect,
+			widget.NewLabel("位数。"),
+		),
 		widget.NewSeparator(),
 		runButton,
 		usageLabel,
