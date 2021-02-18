@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strconv"
@@ -227,7 +226,7 @@ func fileRename(projectPath string) {
 
 	// 单独处理目录内文件
 	for _, menuPath := range *menu {
-		menuCounter := 3
+		menuCounter := 2
 		files, err := ioutil.ReadDir(menuPath)
 		if err != nil {
 			logChan <- fmt.Sprint("目录读取失败：", menuPath)
@@ -727,8 +726,8 @@ func simpleCatalogsHoming(simpleCatalogsDir, projectDir string) {
 			}
 			oldPath := path.Join(v, fileName)
 			newPath := path.Join(targetProjectDir, "目录", "00000"+fileName)
-			log.Printf("从%s\n移动到\n%s\n\n", oldPath, newPath)
-			// err = os.Rename(oldPath, newPath)
+			//log.Printf("从%s\n移动到\n%s\n\n", oldPath, newPath)
+			err = os.Rename(oldPath, newPath)
 			if err != nil {
 				logChan <- fmt.Sprint("移动失败：", err)
 			}

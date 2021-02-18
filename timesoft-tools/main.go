@@ -29,7 +29,7 @@ var busy = false
 
 func main() {
 	a := app.New()
-	w := a.NewWindow("Timesoft Tools v0.4.2")
+	w := a.NewWindow("Timesoft Tools v0.4.3")
 	var logVbox = *container.NewVBox()
 
 	w.SetContent(container.NewAppTabs(
