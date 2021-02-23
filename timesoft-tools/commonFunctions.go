@@ -558,7 +558,7 @@ func checkAll(index int, rows [][]string) {
 		titleError += preText + "出生日期不在第五列！\n"
 		fallthrough
 	case title[5] != "退休手续办理时间":
-		titleError += preText + "退休手续办理时间不在第二列！\n"
+		titleError += preText + "退休手续办理时间不在第六列！\n"
 	}
 	if titleError != "" {
 		logChan <- fmt.Sprint(titleError)
